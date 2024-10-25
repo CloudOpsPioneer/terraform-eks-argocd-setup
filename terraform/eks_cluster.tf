@@ -1,6 +1,6 @@
 #-------------------------------------------------<EKS CLUSTER>--------------------------------------------------
-resource "aws_eks_cluster" "runner_eks_cluster" {
-  name     = "github-runner-arc-eks-cluster"
+resource "aws_eks_cluster" "eks_cluster" {
+  name     = "argocd-eks-cluster"
   role_arn = aws_iam_role.eks_cluster_iam_role.arn #or use existing default role --> eksClusterRole
 
   vpc_config {

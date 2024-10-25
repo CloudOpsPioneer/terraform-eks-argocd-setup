@@ -1,6 +1,6 @@
 #-------------------------------------------------<EKS Cluster Security Group>--------------------------------------------------
 resource "aws_security_group" "eks_sg" {
-  name        = "github-runner-eks-cluster-sg"
+  name        = "argocd-eks-cluster-sg"
   description = "EKS Cluster Security Group"
   vpc_id      = var.vpc_id
 
@@ -20,7 +20,7 @@ resource "aws_security_group" "eks_sg" {
   }
 
   tags = {
-    Name = "github-runner-eks-cluster-sg"
+    Name = "argocd-eks-cluster-sg"
   }
 }
 
@@ -30,14 +30,14 @@ resource "aws_security_group_rule" "eks_cluster_sg_rule_1" {
   from_port                = 0
   to_port                  = 0
   protocol                 = -1
-  security_group_id        = aws_eks_cluster.runner_eks_cluster.vpc_config.0.cluster_security_group_id
+  security_group_id        = aws_eks_cluster.eks_cluster.vpc_config.0.cluster_security_group_id
   source_security_group_id = aws_security_group.eks_node_group_sg.id
   description              = "Adding security group of eks node group to eks cluster SG"
 }
 
 #------------------------------------------------------<EKS Node Group Security Group>-------------------------------------------------------
 resource "aws_security_group" "eks_node_group_sg" {
-  name        = "github-runner-eks-node-group-sg"
+  name        = "argocd-eks-node-group-sg"
   description = "Security Group of EKS node group.Passed to Launch Template"
   vpc_id      = var.vpc_id
 
@@ -52,7 +52,7 @@ resource "aws_security_group" "eks_node_group_sg" {
     from_port       = 0
     to_port         = 0
     protocol        = "-1"
-    security_groups = [aws_eks_cluster.runner_eks_cluster.vpc_config.0.cluster_security_group_id]
+    security_groups = [aws_eks_cluster.eks_cluster.vpc_config.0.cluster_security_group_id]
     description     = "eks cluster security group"
   }
 
@@ -65,7 +65,7 @@ resource "aws_security_group" "eks_node_group_sg" {
   }
 
   tags = {
-    Name = "github-runner-eks-node-group-sg"
+    Name = "argocd-eks-node-group-sg"
   }
 
 }
